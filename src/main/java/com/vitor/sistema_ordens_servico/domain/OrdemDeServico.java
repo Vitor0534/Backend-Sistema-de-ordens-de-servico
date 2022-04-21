@@ -1,19 +1,38 @@
 package com.vitor.sistema_ordens_servico.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vitor.sistema_ordens_servico.domain.enuns.Prioridade;
 import com.vitor.sistema_ordens_servico.domain.enuns.Status;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+//*** Foi utilizado as convenções do JPA para modelar as entidades a partir do codigo**/
+
+@Entity  // É sempre necessário definir as classes como entidades se for perisistilás no banco
 public class OrdemDeServico {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dataDeAbertura;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dataDeFechamento;
+
     private Integer prioridade;
     private String observacoes;
     private Integer status;
+
+    @ManyToOne
+    @JoinColumn(name  = "tecnico_id")
     private Tecnico tecnico;
+
+    @ManyToOne
+    @JoinColumn(name  = "cliente_id")
     private Cliente cliente;
 
 
